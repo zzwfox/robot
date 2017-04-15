@@ -6,7 +6,7 @@
 var Sys = {};
 Sys.cny = 'CNY';
 Sys.url = 'https://horizon.stellar.org';
-Sys.setOffer=false;
+Sys.setOffer=true;
 Sys.robot1 = {
                 address:'GBTIXAAGP36QLUYQOEZR7JLFEOMR3UDDLOSM4NFYHN6TWE3MQHG7FROR',
                 secret:'xxx'

@@ -73,21 +73,24 @@ function listenTrade(wallet,plan){
                   console.log("got new trades  analysing****");
                   if(record.seller_attr===wallet.address){
                       console.log("new sell trades for (%s)",wallet.address);
-                    plan.genPlanBuy(record,function(err,plan){
-                      console.log("excute plan price buy price (%d)",plan.price);
+                    plan.genPlanBuy(record,function(err,data){
+                      console.log("excute plan price buy price (%d)",data.price);
                         var cmd = wallet.api.manageOffer();
-                        cmd.param=plan;
+                        cmd.param=data;
                         wallet.doAction(cmd,callback);  
                     });
 
                   }else if(record.buyer_attr===wallet.address){
                       console.log("new buy trades for (%s)",wallet.address);
-                     plan.genPlanSell(record,function(err,p){
-                      console.log("excute plan sell price (%d)",p.price);
+                     plan.genPlanSell(record,function(err,data){
+                      console.log("excute plan sell price (%d)",data.price);
                         var cmd = wallet.api.manageOffer();
-                        cmd.param=p;
+                        cmd.param=data;
                         wallet.doAction(cmd,callback);  
                     });  
+                  }else{
+                      console.log("not my trades");
+                      callback(null);
                   }
                 }else{
                     console.log("******not new order id:(%s) return ******",orderId);

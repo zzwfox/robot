@@ -19,6 +19,7 @@ Sys.robot1 = {
             };
 
 ##set the plan:
+ set Sys.setOffer=true init offer;
 
 @parm buying asset: the asset you buying, put the issuer publicKey, and code;
 
