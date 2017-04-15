@@ -19,13 +19,21 @@ Sys.robot1 = {
             };
 
 ##set the plan:
+
 @parm buying asset: the asset you buying, put the issuer publicKey, and code;
+
 @param selling asset: the asset you selling
+
 @param priceLine number: the price line the robot will sell the asset you selling;priceLine = buyying amount / selling amount, eg. 0.019/1 of CNY/XLM; 
+
 @param margin number: the price margin, eg. price = priceLine * (1 + margin) 
+
 @param amount number: the amount of the selling asset you want to offer
+
 @param rate number: the rate of one offer , every offer amount = amount*rate 
-exsaple
+
+###exmple:
+
 Sys.plan1 = {
     buying:{publicKey:'GBTIXAAGP36QLUYQOEZR7JLFEOMR3UDDLOSM4NFYHN6TWE3MQHG7FROR',assetCode:'CNY'},
     selling:'native',
