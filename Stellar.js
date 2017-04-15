@@ -22,7 +22,7 @@ function Stellar(serverUrl,walletSecret){
     */
     this.api = {
                 loadAccount:function(){
-                    var obj = {code:0,desc:'load acount info, return account',param:{publicKey:null}};
+                    var obj = {code:0,desc:'load acount info..',param:{publicKey:null}};
                     return clone(obj);
                 },
                 createWallet:function(){
@@ -140,7 +140,9 @@ Stellar.prototype.loadAccount = function(param,callback) {
       me.seqNum = account.sequence;
       me.balances = account.balances;
       callback(null,account);
-    });
+    }).catch(function (error) {
+          callback(error,null);
+      });
 };
 Stellar.prototype.txHandler = function (txResponse) {
     //console.log( JSON.stringify(StellarSdk.xdr.TransactionEnvelope.fromXDR(txResponse.envelope_xdr, 'base64')) );
