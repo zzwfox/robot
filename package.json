@@ -1,0 +1,16 @@
+{
+    "name": "robot",
+    "version": "1.0.0",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "zzw",
+    "contributors": [],
+    "dependencies": {
+        "stellar-sdk": "^0.7.2",
+        "events":"",
+        "util":"^0.10.3",
+        "async":"^2.1.5",
+        "request":"",
+        "fs":"",
+        "lodash": "^4.0.1"
+    }
+}
