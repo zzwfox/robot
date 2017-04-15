@@ -72,7 +72,7 @@ function listenTrade(wallet,plan){
                 if(orderId>wallet.orderId){
                   console.log("got new trades  analysing****");
                   if(record.seller_attr===wallet.address){
-                      console.log("new sell trades for (%s)",wallet.address);
+                      console.log("new sell trades for (%s)",wallet.address,record);
                     plan.genPlanBuy(record,function(err,data){
                       console.log("excute plan price buy price (%d)",data.price);
                         var cmd = wallet.api.manageOffer();
