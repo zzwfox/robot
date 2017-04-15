@@ -327,6 +327,8 @@ Stellar.prototype.OrderbookTrades = function(param,callback){
       }
     });*/
     me.server.orderbook(SellingAsset,BuyingAsset).trades()
+     .limit(15)
+     .order('desc')
     .call()
     .then(function(resp) { callback(null,resp);})
     .catch(function(error) { callback(error)});

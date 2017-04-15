@@ -58,34 +58,39 @@ function listenTrade(wallet,plan){
         
         var qcmd = wallet.apiQuery.OrderbookTrades();
         qcmd.param={selling:plan.selling,buying:plan.buying};
+        
         wallet.doActionQuery(qcmd,function(err,data){
+            console.log("\n walletId %s checking for (%s)",wallet.orderId,wallet.address);
             if(data === undefined){listenTrade(wallet,plan);return;}
             async.eachLimit(data.records, 1, function (record, callback) {
-               orderId = toNumber(record.id);
+               //orderId = toNumber(record.id);
+               orderId=record.id;
                //console.log("check orderid %s and walletid %d -%d",orderId,wallet.orderId,orderId-wallet.orderId);
-               if(undefined===wallet.orderId){console.log("init statu return");callback(null);return;};
-               console.log("check orderid %d and walletid %d Differ %d for (%s)",orderId,wallet.orderId,orderId-wallet.orderId,wallet.address);
+               if(undefined===wallet.orderId){console.log("init statu return new walletId %s",record.id);callback('init');return;};
+                
+                console.log("***check orderid %s Differ %s",orderId,toNumber(orderId)-toNumber(wallet.orderId));
                 if(orderId>wallet.orderId){
                   console.log("got new trades  analysing****");
                   if(record.seller_attr===wallet.address){
-                      console.log("new trades for (%s)",wallet.address,record);
+                      console.log("new sell trades for (%s)",wallet.address);
                     plan.genPlanBuy(record,function(err,plan){
-                      console.log("excute plan (%d)",plan.price, plan.selling, plan.buying);
+                      console.log("excute plan price buy price (%d)",plan.price);
                         var cmd = wallet.api.manageOffer();
                         cmd.param=plan;
                         wallet.doAction(cmd,callback);  
                     });
 
                   }else if(record.buyer_attr===wallet.address){
-                     plan.genPlanSell(record,function(err,plan){
-                      console.log("excute plan (%d)",plan.price, plan.selling, plan.buying);
+                      console.log("new buy trades for (%s)",wallet.address);
+                     plan.genPlanSell(record,function(err,p){
+                      console.log("excute plan sell price (%d)",p.price);
                         var cmd = wallet.api.manageOffer();
-                        cmd.param=plan;
+                        cmd.param=p;
                         wallet.doAction(cmd,callback);  
                     });  
                   }
                 }else{
-                    console.log("******no new trades for (%s)******return",wallet.address);
+                    console.log("******not new order id:(%s) return ******",orderId);
                     callback(null);
                 }
              },
@@ -94,8 +99,13 @@ function listenTrade(wallet,plan){
                             console.error(err);
                            // mail.notifyError(err, '监控出错');
                         } else {
-                            console.log("..../DONE check d%" +"RECHECK IN 10s.",orderId);
-                            wallet.orderId=orderId;
+                            
+                             console.log("..../Done check walletId (%s)" +"recheck in 10s.",wallet.orderId);
+                        }
+                        try{
+                             wallet.orderId=data.records[0].id;
+                        }catch(e){
+                            
                         }
                         setTimeout(function () {
                                 listenTrade(wallet,plan);
